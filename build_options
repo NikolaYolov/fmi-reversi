@@ -1,4 +1,4 @@
 CONFIG += qt debug
-DESTDIR = Bin/
-MOC_DIR = Tmp/
-OBJECTS_DIR = Tmp/
+DESTDIR = bin/
+MOC_DIR = tmp/
+OBJECTS_DIR = tmp/
