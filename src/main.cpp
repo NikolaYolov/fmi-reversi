@@ -13,8 +13,8 @@ int main(int argc, char *argv[])
 	QApplication app(argc, argv);
 
 	QWidget window;
-	window.setFixedSize(1000, 1000);
-	window.setPalette(QPalette(QColor(250, 250, 200)));
+	window.setFixedSize(450, 500);
+	window.setPalette(QPalette(QColor(255, 255, 255)));
 	window.setAutoFillBackground(true);
 
 	opts opt;

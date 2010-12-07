@@ -17,7 +17,7 @@ public:
 	int get_vt_sz() const;
 
 private:
-	void _drw_crcl(int i, int j, plr_clr );
+	void _drw_fld(int i, int j, plr_clr , bool hlght);
 
 	int hz_flds_;
 	int vt_flds_;
