@@ -12,9 +12,9 @@ class gm_brd;
   */
 enum plr_clr : char
 {
+	pc_free,
 	pc_white,
 	pc_black,
-	pc_free,
 };
 
 /**

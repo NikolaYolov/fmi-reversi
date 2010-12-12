@@ -3,24 +3,32 @@
 
 #include <QWidget>
 
+#include "gm_brd.h"
 #include "player.h"
 
 class vis_brd
 	: public QWidget
 {
 public:
-	vis_brd(QWidget *, int hz_flds, int vt_flds, int pos_x, int pos_y);
+	vis_brd(QWidget *, int pos_x, int pos_y, const gm_brd &);
 
-	void paintEvent(QPaintEvent* );
 
 	int get_hz_sz() const;
 	int get_vt_sz() const;
 
-private:
-	void _drw_fld(int i, int j, plr_clr , bool hlght);
+protected:
+	virtual void mousePressEvent(QMouseEvent *);
+	virtual void mouseMoveEvent(QMouseEvent *);
+	virtual void paintEvent(QPaintEvent *);
+	virtual void leaveEvent(QEvent *);
 
-	int hz_flds_;
-	int vt_flds_;
+private:
+	void _drw_fld(int i, int j, bool hlght);
+	
+	gm_brd snpsht_;
+
+	int hlght_x_;
+	int hlght_y_;
 };
 
 #endif //_VISUAL_BOARD_H__

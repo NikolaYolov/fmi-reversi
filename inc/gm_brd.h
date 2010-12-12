@@ -12,11 +12,6 @@
   */
 class gm_brd
 {
-/**
-  *	This array is the main board.
-  */
-	std::vector<plr_clr> brd_;
-
 public:
 /**
   *	Constructor, initializing the size of the board.
@@ -37,6 +32,20 @@ public:
   *	This method generates all moves for a given player
   */
 	void gen_all_mvs(/*in*/ plr_clr , /*out*/ std::vector<move>& ) const;
+
+	plr_clr get_cell(int i, int j);
+	void set_cell(int i, int j, plr_clr );
+
+	int get_wdth() const;
+	int get_hgth() const;
+
+private:
+/**
+  *	This array is the main board.
+  */
+	std::vector<plr_clr> brd_;
+
+	int wdth_;
 };
 
 #endif //_GAME_BOARD_H__

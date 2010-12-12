@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 	opts opt;
 	new mn_bar(&window, &app, opt);
 
-	new vis_brd(&window, 6, 8, 45, 30);
+	new vis_brd(&window, 45, 30, gm_brd(6, 8));
 
 	window.show();
 	return app.exec();
