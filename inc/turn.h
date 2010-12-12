@@ -5,8 +5,8 @@
 
 struct move
 {
-	index_t x_;
-	index_t y_;
+	int x_;
+	int y_;
 };
 
 struct mesg

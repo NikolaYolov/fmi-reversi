@@ -3,6 +3,7 @@
 #include <QMouseEvent>
 
 #include "vis_brd.h"
+#include "hmn_plr.h"
 
 static const int fld_sz = 50;
 static const int wdt = 2;
@@ -12,11 +13,23 @@ vis_brd::vis_brd(QWidget *pnt, int pos_x, int pos_y, const gm_brd &brd)
 	, snpsht_(brd)
 	, hlght_x_(-1)
 	, hlght_y_(-1)
+	, plr_(0)
 {
+	setMouseTracking(false);
 	setGeometry(pos_x, pos_y, get_hz_sz(), get_vt_sz());
+}
+
+void vis_brd::set_brd(const gm_brd &b)
+{
+	assert((snpsht_.get_wdth() == b.get_wdth()) && snpsht_.get_hgth() == b.get_hgth());
+	snpsht_ = b;
+	repaint();
+}
+
+void vis_brd::set_plr(hmn_plr &p)
+{
 	setMouseTracking(true);
-	//setPalette(QPalette(QColor(250, 250, 200)));
-	//setAutoFillBackground(true);
+	plr_ = &p;
 }
 
 int vis_brd::get_hz_sz() const
@@ -29,7 +42,18 @@ int vis_brd::get_vt_sz() const
 	return fld_sz * snpsht_.get_hgth() + wdt;
 }
 
-#include <cstdio>
+void vis_brd::dactv()
+{
+	setMouseTracking(false);
+	hlght_x_ = hlght_y_ = 0;
+	plr_ = 0;
+}
+
+bool vis_brd::_is_actv()
+{
+	return plr_ != 0;
+}
+
 void vis_brd::_drw_fld(int i, int j, bool hlght)
 {
 	assert(0 <= i && 0 <= j);
@@ -68,9 +92,9 @@ void vis_brd::_drw_fld(int i, int j, bool hlght)
 	{
 		QPen pn(Qt::black);
 		pn.setWidth(wdt);
-		if (p == pc_white)
+		if (p == pc_wht)
 			pnt.setBrush(QBrush(Qt::red));
-		else if (p == pc_black)
+		else if (p == pc_blc)
 			pnt.setBrush(QBrush(Qt::black));
 		pnt.setPen(pn);
 	}
@@ -90,34 +114,59 @@ void vis_brd::paintEvent(QPaintEvent *)
 		_drw_fld(hlght_x_, hlght_y_, true);
 }
 
-static int clc_idx(int x)
+int vis_brd::_clc_idx_x(int x) const
 {
-	return (x - (wdt / 1))/ fld_sz;
+	int res = (x - (wdt / 2)) / fld_sz;
+	assert(res <= snpsht_.get_wdth());
+	if (res >= snpsht_.get_wdth())
+		res = snpsht_.get_wdth() - 1;
+	return res;
+}
+
+int vis_brd::_clc_idx_y(int y) const
+{
+	int res = (y - (wdt / 2)) / fld_sz;
+	assert(res <= snpsht_.get_hgth());
+	if (res >= snpsht_.get_hgth())
+		res = snpsht_.get_hgth() - 1;
+	return res;
 }
 
 /*virtual*/
 void vis_brd::mousePressEvent(QMouseEvent *ev)
 {
-	const QPoint& pnt = ev->pos();
-	int x = clc_idx(pnt.x());
-	int y = clc_idx(pnt.y());
-	snpsht_.set_cell(x, y, pc_white);
-	repaint();
+	if (_is_actv())
+	{
+		const QPoint& pnt = ev->pos();
+		turn t;
+		t.move_.x_ = _clc_idx_x(pnt.x());
+		t.move_.y_ = _clc_idx_y(pnt.y());
+		if (snpsht_.get_cell(t.move_.x_, t.move_.y_) == pc_free)
+			plr_->do_mv(t);
+	}
 }
 
 /*virtual*/
 void vis_brd::mouseMoveEvent(QMouseEvent *ev)
 {
-	const QPoint& pnt = ev->pos();
-	hlght_x_ = clc_idx(pnt.x());
-	hlght_y_ = clc_idx(pnt.y());
-	repaint();
+	if (_is_actv())
+	{
+		const QPoint& pnt = ev->pos();
+		hlght_x_ = _clc_idx_x(pnt.x());
+		hlght_y_ = _clc_idx_y(pnt.y());
+		if (!snpsht_.get_cell(hlght_x_, hlght_y_) == pc_free)
+			hlght_x_ = hlght_y_ = -1;
+		repaint();
+	}
 }
 
 /*virtual*/
 void vis_brd::leaveEvent(QEvent	*)
 {
-	hlght_x_ = hlght_y_ = -1;
-	repaint();
+	if (_is_actv())
+	{
+		hlght_x_ = hlght_y_ = -1;
+		repaint();
+	}
 }
 

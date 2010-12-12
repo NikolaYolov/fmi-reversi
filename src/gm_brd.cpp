@@ -7,7 +7,7 @@
 #include "turn.h"
 #include "player.h"
 
-gm_brd::gm_brd(index_t x_len, index_t y_len)
+gm_brd::gm_brd(int x_len, int y_len)
 	: brd_(x_len * y_len)
 	, wdth_(x_len)
 {
@@ -47,6 +47,7 @@ int gm_brd::get_wdth() const
 int gm_brd::get_hgth() const
 {
 	assert(brd_.size() % get_wdth() == 0);
-	return brd_.size() / get_wdth();
+	assert((get_wdth() == 0) == (brd_.size() == 0));
+	return (get_wdth() != 0)? brd_.size() / get_wdth() : 0;
 }
 

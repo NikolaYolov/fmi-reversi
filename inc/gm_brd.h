@@ -14,9 +14,9 @@ class gm_brd
 {
 public:
 /**
-  *	Constructor, initializing the size of the board.
+  *	Constructors, initializing the size of the board.
   */
-	gm_brd(/*in*/ index_t x_len, /*in*/ index_t y_wdt);
+	gm_brd(/*in*/ int x_len, /*in*/ int y_wdt);
 
 /**
   *	This method changes the board acording the given move.

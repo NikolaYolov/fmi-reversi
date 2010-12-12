@@ -5,6 +5,7 @@
 #include "turn.h"
 
 class gm_brd;
+class gm_mst;
 
 /**
   * This enum is used to give us information about the field or a move. Notice that pc_free is not required when we 
@@ -13,8 +14,8 @@ class gm_brd;
 enum plr_clr : char
 {
 	pc_free,
-	pc_white,
-	pc_black,
+	pc_wht,
+	pc_blc,
 };
 
 /**
@@ -22,10 +23,19 @@ enum plr_clr : char
   */
 class player
 {
+public:
+	player(gm_mst &, plr_clr );
+
 /**
   *	This virtual method represents the main interface for the human and cumputer players.
+  *	It is called when the caller asks the player to move and the player starts 'thinking'.
   */
-	virtual turn mk_mv(/*in*/ gm_brd &, /*in*/ time_t ) =0;
+	virtual void mk_mv(/*in*/ gm_brd &, /*in*/ time_t ) = 0;
+
+protected:
+	gm_mst &ownr_;
+	plr_clr clr_;
 };
 
 #endif //_PLAYER_H__
+

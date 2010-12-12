@@ -9,11 +9,12 @@
 class cmp_plr
 	: public player
 {
-
+public:
+	cmp_plr(gm_mst &, plr_clr );
 /**
   *	This method makes one move using mix-max algorithm.
   */
-	virtual turn mk_mv(/*in*/ gm_brd &, /*in*/ time_t );
+	virtual void mk_mv(/*in*/ gm_brd &, /*in*/ time_t );
 };
 
 #endif //_COMPUTER_PLAYER_H__

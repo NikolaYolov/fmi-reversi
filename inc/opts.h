@@ -6,8 +6,10 @@
   */
 struct opts
 {
-	size_t hght_;
-	size_t wdth_;
+	opts();
+	
+	int wdth_;
+	int hght_;
 
 	enum pl_type
 	{

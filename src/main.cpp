@@ -7,6 +7,7 @@
 #include "vis_brd.h"
 #include "mn_bar.h"
 #include "opts.h"
+#include "gm_mst.h"
 
 int main(int argc, char *argv[])
 {
@@ -19,8 +20,10 @@ int main(int argc, char *argv[])
 
 	opts opt;
 	new mn_bar(&window, &app, opt);
-
-	new vis_brd(&window, 45, 30, gm_brd(6, 8));
+	vis_brd *vb = new vis_brd(&window, 45, 30, gm_brd(6, 8));
+	gm_mst gm(*vb, opt);
+	
+	gm.nw();
 
 	window.show();
 	return app.exec();

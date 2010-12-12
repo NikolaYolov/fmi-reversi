@@ -1,8 +1,22 @@
 #include "hmn_plr.h"
 
-//virtual
-turn hmn_plr::mk_mv(gm_brd &brd, time_t tm_lft)
+#include "gm_mst.h"
+#include "vis_brd.h"
+
+hmn_plr::hmn_plr(gm_mst& o, plr_clr c)
+	: player(o, c)
 {
-	return turn();
+}
+
+//virtual
+void hmn_plr::mk_mv(gm_brd &brd, time_t tm_lft)
+{
+	ownr_.get_vbrd().set_plr(*this);
+	ownr_.get_vbrd().set_brd(brd);
+}
+
+void hmn_plr::do_mv(turn t)
+{
+	ownr_.acpt_trn(t);
 }
 
