@@ -19,11 +19,15 @@ int main(int argc, char *argv[])
 	window.setAutoFillBackground(true);
 
 	opts opt;
-	new mn_bar(&window, &app, opt);
-	vis_brd *vb = new vis_brd(&window, 45, 30, gm_brd(6, 8));
+	opt.wdth_ = 6;
+	opt.hght_ = 8;
+	
+	vis_brd *vb = new vis_brd(&window, 45, 30, gm_brd(opt.wdth_, opt.hght_));
 	gm_mst gm(*vb, opt);
 	
 	gm.nw();
+
+	new mn_bar(&window, &app, gm, opt);	
 
 	window.show();
 	return app.exec();

@@ -61,7 +61,7 @@ void gm_mst::_clr()
 	delete plrs_[0];
 	delete plrs_[1];
 
-	for (int i = 0; i < hstr_.size(); ++i)
+	for (int i = 0; i < static_cast<int>(hstr_.size()); ++i)
 		delete hstr_[i];
 
 	hstr_.clear();

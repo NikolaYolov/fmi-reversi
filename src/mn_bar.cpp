@@ -2,9 +2,10 @@
 #include <QMenu>
 #include <QApplication>
 
+#include "gm_mst.h"
 #include "mn_bar.h"
 
-mn_bar::mn_bar(QWidget *wnd, QApplication *app, opts &opt)
+mn_bar::mn_bar(QWidget *wnd, QApplication *app, gm_mst &g_m, opts &opt)
 	: opts_(opt)
 {
 	QMenuBar *main = new QMenuBar(wnd);
@@ -12,6 +13,7 @@ mn_bar::mn_bar(QWidget *wnd, QApplication *app, opts &opt)
 	{
 		QMenu *fl_m = new QMenu(QObject::tr("File"), main);
 		QAction *a_new = fl_m->addAction(QObject::tr("New"));
+		QObject::connect(a_new, SIGNAL(triggered()), &g_m, SLOT(nw()));
 		QAction *a_sv = fl_m->addAction(QObject::tr("Save"));
 		QAction *a_ld = fl_m->addAction(QObject::tr("Load"));
 		QAction *a_qt = fl_m->addAction(QObject::tr("Quit"));

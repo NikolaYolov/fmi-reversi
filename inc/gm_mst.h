@@ -1,6 +1,7 @@
 #if !defined(_GAME_MASTER_H_)
 #define _GAME_MASTER_H_
 
+#include <QObject>
 #include <vector>
 
 #include "player.h"
@@ -12,7 +13,10 @@ class opts;
 class vis_brd;
 
 class gm_mst
+	: public QObject
 {
+	Q_OBJECT
+
 public:
 /**
   * Ctor, Dtor
@@ -20,6 +24,7 @@ public:
 	gm_mst(vis_brd &, const opts &);
 	~gm_mst();
 
+public slots:
 /**
   * New, Save and Load
   */
@@ -27,6 +32,7 @@ public:
 	void sv();
 	void ld();
 
+public:
 /**
   * Accept Move method should be called when a player makes a move to notify the game master.
   */

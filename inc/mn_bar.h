@@ -4,6 +4,7 @@
 class QWidget;
 class QApplication;
 
+class gm_mst;
 struct opts;
 
 /**
@@ -15,7 +16,7 @@ public:
 /**
   * We need the QWidget to place the window in the hierarchy, QApplication for the quit functionality, and options for the options menu.
   */
-	mn_bar(QWidget *, QApplication *, opts &);
+	mn_bar(QWidget *, QApplication *, gm_mst &, opts &);
 
 private:
 	opts &opts_;	
