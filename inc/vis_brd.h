@@ -4,6 +4,7 @@
 #include <QWidget>
 
 #include "gm_brd.h"
+#include "turn.h"
 
 class hmn_plr;
 
@@ -15,8 +16,7 @@ public:
 
 	int get_hz_sz() const;
 	int get_vt_sz() const;
-	void set_brd(const gm_brd &);
-	void set_plr(hmn_plr &);
+	void set_plr_brd(hmn_plr &, const gm_brd &);
 	void dactv();
 
 protected:
@@ -28,7 +28,7 @@ protected:
 private:
 	bool _is_actv();
 	void _drw_fld(int i, int j, bool hlght);
-	
+	void sort_mvs();	
 	
 	int _clc_idx_x(int ) const;
 	int _clc_idx_y(int ) const;
@@ -37,6 +37,8 @@ private:
 
 	int hlght_x_;
 	int hlght_y_;
+
+	std::vector<struct move> pos_mvs_;
 
 	hmn_plr *plr_;
 };

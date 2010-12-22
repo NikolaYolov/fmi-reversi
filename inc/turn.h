@@ -5,8 +5,9 @@
 
 struct move
 {
-	int x_;
-	int y_;
+	int xy_;
+
+	move(int = 0);
 };
 
 struct mesg
@@ -23,6 +24,14 @@ struct turn
 	move move_;
 	mesg mesg_;	
 };
+
+// inlines
+
+inline move::move(int xy)
+	: xy_(xy)
+{
+	;
+}
 
 #endif //_TURN_H__
 

@@ -31,11 +31,19 @@ public:
   *	It is called when the caller asks the player to move and the player starts 'thinking'.
   */
 	virtual void mk_mv(/*in*/ gm_brd &, /*in*/ time_t ) = 0;
+	plr_clr get_clr();
 
 protected:
 	gm_mst &ownr_;
 	plr_clr clr_;
 };
+
+/* inlines */
+
+inline plr_clr player::get_clr()
+{
+	return clr_;
+}
 
 #endif //_PLAYER_H__
 

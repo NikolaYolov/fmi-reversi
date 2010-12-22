@@ -21,7 +21,7 @@ public:
 /**
   *	This method changes the board acording the given move.
   */
-	void do_mv(/*in*/ move , /*in*/ plr_clr , /*out*/ gm_brd &) const;
+	void do_mv(/*in*/ move , /*in*/ plr_clr );
 
 /**
   *	This method returns true if the given move is valid and false otherwise.
@@ -33,18 +33,20 @@ public:
   */
 	void gen_all_mvs(/*in*/ plr_clr , /*out*/ std::vector<move>& ) const;
 
-	plr_clr get_cell(int i, int j);
-	void set_cell(int i, int j, plr_clr );
+	plr_clr get_cell(move );
+	plr_clr get_cell(int );
+
+	void set_cell(move , plr_clr );
+	void set_cell(int , plr_clr );
 
 	int get_wdth() const;
-	int get_hgth() const;
+	int get_hght() const;
 
 private:
 /**
   *	This array is the main board.
   */
 	std::vector<plr_clr> brd_;
-
 	int wdth_;
 };
 

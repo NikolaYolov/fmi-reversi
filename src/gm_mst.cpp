@@ -41,11 +41,12 @@ void gm_mst::ld()
 	assert(false);
 }
 
+
 void gm_mst::acpt_trn(turn t)
 {
 	gm_brd *nbrd = new gm_brd(*hstr_.back());
-	assert(nbrd->get_cell(t.move_.x_, t.move_.y_) == pc_free);
-	nbrd->set_cell(t.move_.x_, t.move_.y_, ((trn_n_ % 2) == 0)? pc_wht : pc_blc);
+	assert(nbrd->get_cell(t.move_) == pc_free);
+	nbrd->do_mv(t.move_, ((trn_n_ % 2) == 0)? pc_wht : pc_blc);
 	hstr_.push_back(nbrd);
 	++trn_n_;
 	_asgn_trn();
@@ -77,10 +78,11 @@ void gm_mst::_init()
 		int mx = (opts_.wdth_ / 2) - 1;
 		int my = (opts_.hght_ / 2) - 1;
 
-		brd->set_cell(mx, my, pc_wht);
-		brd->set_cell(mx + 1, my, pc_blc);
-		brd->set_cell(mx, my + 1, pc_blc);
-		brd->set_cell(mx + 1, my + 1, pc_wht);
+		int xy = mx + my * opts_.wdth_;
+		brd->set_cell(move(xy), pc_wht);
+		brd->set_cell(move(xy + 1), pc_blc);
+		brd->set_cell(move(xy += opts_.wdth_), pc_blc);
+		brd->set_cell(move(xy + 1), pc_wht);
 	}
 
 	hstr_.push_back(brd);
