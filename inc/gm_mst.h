@@ -7,6 +7,7 @@
 #include "player.h"
 #include "opts.h"
 #include "turn.h"
+#include "gm_brd.h"
 
 class gm_brd;
 class opts;
@@ -47,7 +48,9 @@ private:
 
 	player *plrs_[2];
 	int trn_n_;
-	std::vector<gm_brd *> hstr_;
+	plr_clr c_plr_;
+	std::vector<turn> hstr_;
+	gm_brd c_brd_;
 	opts opts_;
 	vis_brd &vis_brd_;
 };

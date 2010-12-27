@@ -6,12 +6,35 @@
 #include "defs.h"
 #include "turn.h"
 #include "player.h"
+#include "defs.h"
+#include "opts.h"
 
 gm_brd::gm_brd(int x_len, int y_len)
 	: brd_(x_len * y_len)
 	, wdth_(x_len)
 {
-	assert(0 == pc_free);
+}
+
+gm_brd::gm_brd(const opts &o)
+	: brd_(o.wdth_ * o.hght_)
+	, wdth_(o.wdth_)
+{
+}
+
+void gm_brd::rst()
+{
+	for (int i = 0; i < brd_.size(); ++i)
+		brd_[i] = pc_free;
+
+	int wdth = get_wdth();
+	int mx = (wdth / 2) - 1;
+	int my = (get_hght() / 2) - 1;
+
+	int xy = mx + my * wdth;
+	brd_[xy] = pc_blc;
+	brd_[xy + 1] = pc_wht;
+	brd_[xy += wdth] = pc_wht;
+	brd_[xy + 1] = pc_blc;
 }
 
 void gm_brd::do_mv(move mv, plr_clr plr)

@@ -7,6 +7,8 @@
 #include "turn.h"
 #include "player.h"
 
+
+class opts;
 /**
   *	This class represents the state of the game in one.
   */
@@ -17,6 +19,7 @@ public:
   *	Constructors, initializing the size of the board.
   */
 	gm_brd(/*in*/ int x_len, /*in*/ int y_wdt);
+	gm_brd(const opts& o);
 
 /**
   *	This method changes the board acording the given move.
@@ -41,6 +44,8 @@ public:
 
 	int get_wdth() const;
 	int get_hght() const;
+
+	void rst();
 
 private:
 /**
