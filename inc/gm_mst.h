@@ -33,13 +33,19 @@ public slots:
 	void sv();
 	void ld();
 
+	void go_to_tr(int );
+
 public:
 /**
   * Accept Move method should be called when a player makes a move to notify the game master.
   */
 	void acpt_trn(turn );
 
-	vis_brd &get_vbrd(); 
+	vis_brd &get_vbrd();
+	const std::vector<turn>& get_hstr() const;
+
+signals:
+	void nw_trn();
 
 private:
 	void _clr();

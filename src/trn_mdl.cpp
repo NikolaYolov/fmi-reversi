@@ -2,26 +2,33 @@
 
 #include "trn_mdl.h"
 
-trn_mdl::trn_mdl(QObject *p, const std::vector<turn> &h)
+trn_mdl::trn_mdl(QObject *p, const std::vector<turn> &h, int w)
 	: QAbstractTableModel(p)
 	, hstr_(h)
+	, rw_cnt_(0)
+	, wdg_(w)
 {
+	beginInsertRows(QModelIndex(), 0, 10);
+	endInsertRows();
 }
 
+/*
 static int n2r(int n)
 {
 	return n / 2 + (n % 2 == 1);
 }
+*/
 
 static int rc2n(int r, int c)
 {
-	return 2 * r + (c % 2 == 1);
+	return r * 2 + (c % 2 == 1);
 }
 
 int trn_mdl::rowCount(const QModelIndex &) const
 {
-	return n2r(hstr_.size());
+	return rw_cnt_;
 }
+
 
 int trn_mdl::columnCount(const QModelIndex &) const
 {
@@ -34,7 +41,7 @@ QVariant trn_mdl::data(const QModelIndex &i, int r) const
 	if (i.isValid() && 0 <= i.row() && idx < static_cast<int>(hstr_.size()) && r == Qt::DisplayRole)
 	{
 		turn t = hstr_[idx];
-		return QString("(%d, %d)").arg(t.move_.xy_).arg(t.move_.xy_);
+		return QString("(%1, %2)").arg(t.move_.xy_ % wdg_ + 1).arg(t.move_.xy_ / wdg_ + 1);
 	}
 	else
 		return QString();
@@ -55,3 +62,32 @@ QVariant trn_mdl::headerData(int sct, Qt::Orientation o, int r) const
 		return QVariant();
 }
 
+void trn_mdl::rsz()
+{
+	assert(!hstr_.empty());
+	int c_rws = hstr_.size() / 2;
+	
+	if (c_rws == rw_cnt_ - 1) /* no need to insert or remove rows */
+	{
+		emit(dataChanged(createIndex(c_rws, 0), createIndex(c_rws, 1)));
+	}
+	else if (c_rws > rw_cnt_ - 1) /* we have to insert some rows */
+	{
+		beginInsertRows(QModelIndex(), rw_cnt_, c_rws);
+		endInsertRows();
+		emit(dataChanged(createIndex(rw_cnt_ - 1, 0), createIndex(c_rws, 1)));
+	}
+	else /* we have to remove some rows */
+	{
+		beginRemoveRows(QModelIndex(), c_rws + 1, rw_cnt_ -1);
+		endRemoveRows();
+		emit(dataChanged(createIndex(rw_cnt_ - 1, 0), createIndex(c_rws, 1)));
+	}
+ 
+	rw_cnt_ = c_rws + 1;
+}
+
+int trn_mdl::trns() const
+{
+	return hstr_.size();
+}

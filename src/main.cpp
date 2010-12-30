@@ -3,12 +3,14 @@
 #include <QPushButton>
 #include <QWidget>
 #include <QLine>
+#include <QHeaderView>
 
 #include "vis_brd.h"
 #include "mn_bar.h"
 #include "opts.h"
 #include "gm_mst.h"
 #include "trn_lst.h"
+#include "trn_mdl.h"
 
 int main(int argc, char *argv[])
 {
@@ -28,7 +30,17 @@ int main(int argc, char *argv[])
 	
 	gm.nw();
 
-	new trn_lst(&window, 500, 30);
+	trn_lst *tlst = new trn_lst(&window, 500, 30);
+	tlst->verticalHeader()->setClickable(false);
+	tlst->verticalHeader()->setHighlightSections(false);
+	tlst->verticalHeader()->setMovable(false);
+
+	trn_mdl *tmdl = new trn_mdl(&window, gm.get_hstr(), opt.wdth_);
+
+	tlst->setModel(tmdl);
+
+	QObject::connect(&gm, SIGNAL(nw_trn()), tmdl, SLOT(rsz()));
+	QObject::connect(tlst, SIGNAL(d_cl(int )), &gm, SLOT(go_to_tr(int )));
 
 	new mn_bar(&window, &app, gm, opt);	
 

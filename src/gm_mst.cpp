@@ -47,9 +47,12 @@ void gm_mst::acpt_trn(turn t)
 {
 	assert(c_brd_.get_cell(t.move_) == pc_free);
 	c_brd_.do_mv(t.move_, c_plr_);
+
+	hstr_.resize(trn_n_); /* Notice that this will remove all turns after the current, if the user has decided to rollback some turns. */
 	hstr_.push_back(t);
 	c_plr_ = (c_plr_ == pc_wht)? pc_blc : pc_wht;
 	++trn_n_;
+	emit nw_trn();
 	_asgn_trn();
 }
 
@@ -86,5 +89,21 @@ void gm_mst::_asgn_trn()
 	player *p = plrs_[(c_plr_ == pc_wht)? 0 : 1];
 	assert(p);
 	p->mk_mv(c_brd_, 0.);
+}
+
+const std::vector<turn>& gm_mst::get_hstr() const
+{
+	return hstr_;
+}
+
+void gm_mst::go_to_tr(int i)
+{
+	if (i != trn_n_)
+	{
+		assert(0 <= i && i <= hstr_.size());
+		for (trn_n_ = 0, c_plr_ = pc_wht, c_brd_.rst(); trn_n_ < i; ++trn_n_, (c_plr_ = ((c_plr_ == pc_wht)? pc_blc : pc_wht)))
+			c_brd_.do_mv(hstr_[trn_n_].move_, c_plr_);
+	}
+	_asgn_trn();
 }
 
