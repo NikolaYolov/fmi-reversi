@@ -22,11 +22,14 @@ public:
 
 public slots:
 	void rsz();
+	void set_sc(int w, int b); /* This slot is used to refresh the score on the board. */
 
 private:
 	const std::vector<turn> &hstr_;
 	int rw_cnt_;
 	int wdg_;
+	int w_sc_; /* The number of wihte squares on the field. */
+	int b_sc_; /* The number of black squares on the field. */
 };
 
 #endif //_TURNS_MODEL_H_

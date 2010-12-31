@@ -17,7 +17,7 @@ public:
 	int get_hz_sz() const;
 	int get_vt_sz() const;
 	void set_plr_brd(hmn_plr &, const gm_brd &);
-	void dactv();
+	void dctv();
 
 protected:
 	virtual void mousePressEvent(QMouseEvent *);

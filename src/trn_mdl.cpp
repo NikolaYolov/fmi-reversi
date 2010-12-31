@@ -7,6 +7,8 @@ trn_mdl::trn_mdl(QObject *p, const std::vector<turn> &h, int w)
 	, hstr_(h)
 	, rw_cnt_(0)
 	, wdg_(w)
+	, w_sc_(2)
+	, b_sc_(2)
 {
 	beginInsertRows(QModelIndex(), 0, 10);
 	endInsertRows();
@@ -41,6 +43,8 @@ QVariant trn_mdl::data(const QModelIndex &i, int r) const
 	if (i.isValid() && 0 <= i.row() && idx < static_cast<int>(hstr_.size()) && r == Qt::DisplayRole)
 	{
 		turn t = hstr_[idx];
+		if (t.mesg_.msg_ == mesg::m_skip)
+			return QString('-');
 		return QString("(%1, %2)").arg(t.move_.xy_ % wdg_ + 1).arg(t.move_.xy_ / wdg_ + 1);
 	}
 	else
@@ -52,9 +56,9 @@ QVariant trn_mdl::headerData(int sct, Qt::Orientation o, int r) const
 	if (r == Qt::DisplayRole && o == Qt::Horizontal)
 	{
 		if (sct == 0)
-			return QString(QObject::tr("Red"));
+			return QString(QObject::tr("Red - %1").arg(w_sc_));
 		else if (sct == 1)
-			return QString(QObject::tr("Black"));
+			return QString(QObject::tr("Black - %2").arg(b_sc_));
 		else
 			assert(false);
 	}
@@ -91,3 +95,11 @@ int trn_mdl::trns() const
 {
 	return hstr_.size();
 }
+
+void trn_mdl::set_sc(int w, int b)
+{
+	w_sc_ = w;
+	b_sc_ = b;
+	headerDataChanged(Qt::Horizontal, 0, 1);
+}
+

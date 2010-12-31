@@ -40,6 +40,12 @@ void vis_brd::set_plr_brd(hmn_plr &p, const gm_brd &b)
 	snpsht_.gen_all_mvs(plr_->get_clr(), pos_mvs_);
 
 	repaint();
+	if (pos_mvs_.empty())
+	{
+		turn t;
+		t.mesg_.msg_ = mesg::m_skip;
+		p.do_mv(t);
+	}
 }
 
 int vis_brd::get_hz_sz() const
@@ -52,11 +58,11 @@ int vis_brd::get_vt_sz() const
 	return fld_sz * snpsht_.get_hght() + wdt;
 }
 
-void vis_brd::dactv()
+void vis_brd::dctv()
 {
 	pos_mvs_.clear();
 	setMouseTracking(false);
-	hlght_x_ = hlght_y_ = 0;
+	hlght_x_ = hlght_y_ = -1;
 	plr_ = 0;
 }
 
@@ -163,7 +169,7 @@ void vis_brd::mousePressEvent(QMouseEvent *ev)
 /*virtual*/
 void vis_brd::mouseMoveEvent(QMouseEvent *ev)
 {
-	assert(_is_actv());
+	if (_is_actv())
 	{
 		assert(plr_ != 0);
 		const QPoint& pnt = ev->pos();

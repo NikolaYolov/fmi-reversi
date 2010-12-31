@@ -9,6 +9,10 @@
 #include "defs.h"
 #include "opts.h"
 
+gm_brd::gm_brd()
+{
+}
+
 gm_brd::gm_brd(int x_len, int y_len)
 	: brd_(x_len * y_len)
 	, wdth_(x_len)
@@ -16,14 +20,19 @@ gm_brd::gm_brd(int x_len, int y_len)
 }
 
 gm_brd::gm_brd(const opts &o)
-	: brd_(o.wdth_ * o.hght_)
-	, wdth_(o.wdth_)
 {
+	stp(o);
+}
+
+void gm_brd::stp(const opts &o)
+{
+	brd_.resize(o.wdth_ * o.hght_);
+	wdth_ = o.wdth_;
 }
 
 void gm_brd::rst()
 {
-	for (int i = 0; i < brd_.size(); ++i)
+	for (int i = 0; i < static_cast<int>(brd_.size()); ++i)
 		brd_[i] = pc_free;
 
 	int wdth = get_wdth();
@@ -168,3 +177,7 @@ int gm_brd::get_hght() const
 	return (get_wdth() != 0)? brd_.size() / get_wdth() : 0;
 }
 
+int gm_brd::get_size() const
+{
+	return brd_.size();
+}

@@ -14,9 +14,13 @@ struct mesg
 {
 	enum message
 	{
+		m_nmsg,
 		m_srnd,
 		m_draw,
+		m_skip,
 	} msg_;
+
+	mesg();
 };
 
 struct turn
@@ -29,6 +33,12 @@ struct turn
 
 inline move::move(int xy)
 	: xy_(xy)
+{
+	;
+}
+
+inline mesg::mesg()
+	: msg_(m_nmsg)
 {
 	;
 }

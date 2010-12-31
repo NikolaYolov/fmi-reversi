@@ -9,11 +9,15 @@ trn_lst::trn_lst(QWidget *prt, int pos_x, int pos_y)
 	: QTableView(prt)
 	, mdl_(0)
 {
-	setGeometry(pos_x, pos_y, 202, 400);
+	setGeometry(pos_x, pos_y, 220, 400);
 	setSelectionBehavior(SelectItems);
 	setSelectionMode(SingleSelection);
 	verticalHeader()->hide();
 	connect(this, SIGNAL(doubleClicked(const QModelIndex &)), this, SLOT(dcd_idx(const QModelIndex &)));
+
+	horizontalHeader()->setClickable(false);
+	horizontalHeader()->setHighlightSections(false);
+	horizontalHeader()->setMovable(false);
 }
 
 //virtual

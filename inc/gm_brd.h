@@ -18,6 +18,7 @@ public:
 /**
   *	Constructors, initializing the size of the board.
   */
+	gm_brd();
 	gm_brd(/*in*/ int x_len, /*in*/ int y_wdt);
 	gm_brd(const opts& o);
 
@@ -44,8 +45,14 @@ public:
 
 	int get_wdth() const;
 	int get_hght() const;
+	int get_size() const;
 
 	void rst();
+
+/**
+  *	Setups the board acoarding to the options.
+  */
+	void stp(const opts &);
 
 private:
 /**
