@@ -51,7 +51,7 @@ void gm_brd::do_mv(move mv, plr_clr plr)
 	assert(brd_[mv.xy_] == pc_free);
 	plr_clr enm = (plr == pc_wht)? pc_blc : pc_wht;
 	const int wdth = get_wdth();
-	
+
 	int ds[8] = { 1, wdth + 1, wdth, wdth - 1, -1, - wdth - 1, - wdth, - wdth + 1 };
 	int mvs[8];
 	mvs[4] = mv.xy_ % wdth;
@@ -141,7 +141,6 @@ void gm_brd::gen_all_mvs(plr_clr plr, std::vector<move>& res) const
 				}
 			}
 		}
-
 }
 
 
@@ -181,3 +180,4 @@ int gm_brd::get_size() const
 {
 	return brd_.size();
 }
+

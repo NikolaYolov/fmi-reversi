@@ -68,8 +68,8 @@ QVariant trn_mdl::headerData(int sct, Qt::Orientation o, int r) const
 
 void trn_mdl::rsz()
 {
-	assert(!hstr_.empty());
 	int c_rws = hstr_.size() / 2;
+	//c_rws = std::max(c_rws, 1);
 	
 	if (c_rws == rw_cnt_ - 1) /* no need to insert or remove rows */
 	{

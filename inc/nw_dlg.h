@@ -13,8 +13,19 @@ class QWidget;
 class nw_dlg
 	: public QDialog
 {
+	Q_OBJECT
 public:
-	nw_dlg(const opts &, QWidget *);
+	nw_dlg(opts /*in, out*/&, QWidget *);
+
+private slots:
+	void cm_ok();
+
+private:
+	enum pl_idx
+	{
+		pi_hmn = 0,
+		pi_cmp,
+	};
 
 	QComboBox *pl_1_chs_;
 	QComboBox *pl_2_chs_;
@@ -22,7 +33,6 @@ public:
 	QLineEdit *wdth_;
 	QLineEdit *hght_;
 
-private:
 	QLabel *pl_1_t_;
 	QLabel *pl_2_t_;
 	QLabel *w_t_;
@@ -30,6 +40,8 @@ private:
 
 	QPushButton *ok_bn_;
 	QPushButton *cn_bn_;
+
+	opts &opts_;
 }; 
 
 #endif //_NEW_DIALOG_H_

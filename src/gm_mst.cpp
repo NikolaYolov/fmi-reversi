@@ -22,6 +22,7 @@ gm_mst::gm_mst(const opts &o)
 	, c_plr_(pc_wht)
 	, c_brd_(o)
 	, lst_skp_(false)
+	, opts_(o)
 {
 	plrs_[0] = plrs_[1] = 0;
 }
@@ -32,6 +33,7 @@ gm_mst::gm_mst(vis_brd *vb, const opts &o)
 	, c_plr_(pc_wht)
 	, c_brd_(o)
 	, lst_skp_(false)
+	, opts_(o)
 {
 	plrs_[0] = plrs_[1] = 0;
 }
@@ -55,7 +57,6 @@ void gm_mst::set_vb(vis_brd *v)
 void gm_mst::set_opt(const opts *o)
 {
 	opts_ = *o;
-	c_brd_.stp(opts_);
 }
 
 void gm_mst::sv()
@@ -118,8 +119,9 @@ void gm_mst::_end_gm()
 
 	QMessageBox(QMessageBox::Information, 
 		QObject::tr("Game Over!"),
-		QObject::tr("%1 player has won!\nFinal score: %2 - %3").arg((ww > bb)? "White" : "Black").arg(ww).arg(bb),
-		QMessageBox::Close)
+		ww == bb? tr("The game has ended in a draw.") :
+			tr("%1 player has won!\nFinal score: %2 - %3").arg((ww > bb)? "Red" : "Black").arg(ww).arg(bb),
+		QMessageBox::Ok)
 	.exec();
 }
 
@@ -136,10 +138,12 @@ void gm_mst::_clr()
 	hstr_.clear();
 }
 
+
 void gm_mst::_init()
 {
 	_clr();
 
+	c_brd_.stp(opts_);
 	assert(opts_.hght_ > 1 && opts_.wdth_ > 1);
 	c_brd_.rst();
 

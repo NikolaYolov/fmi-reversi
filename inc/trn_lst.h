@@ -13,8 +13,9 @@ class trn_lst
 {
 	Q_OBJECT
 public:
-	trn_lst(QWidget *, int pox_x, int pox_y);
+	trn_lst(QWidget *, int pox_x, int pox_y, int len_y);
 	virtual void setModel(QAbstractItemModel *);
+	static int get_hz_sz();
 
 signals:
 	void d_cl(int );

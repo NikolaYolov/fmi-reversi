@@ -5,11 +5,11 @@
 
 #include "trn_mdl.h"
 
-trn_lst::trn_lst(QWidget *prt, int pos_x, int pos_y)
+trn_lst::trn_lst(QWidget *prt, int pos_x, int pos_y, int len_y)
 	: QTableView(prt)
 	, mdl_(0)
 {
-	setGeometry(pos_x, pos_y, 220, 400);
+	setGeometry(pos_x, pos_y, get_hz_sz(), len_y);
 	setSelectionBehavior(SelectItems);
 	setSelectionMode(SingleSelection);
 	verticalHeader()->hide();
@@ -35,3 +35,10 @@ void trn_lst::dcd_idx(const QModelIndex& i)
 		emit(d_cl(idx));
 }
 
+/**
+  * Static.
+  */
+int trn_lst::get_hz_sz()
+{
+	return 220;
+}

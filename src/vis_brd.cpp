@@ -11,11 +11,15 @@ static const int wdt = 2;
 
 vis_brd::vis_brd(QWidget *pnt, int pos_x, int pos_y, const gm_brd &brd)
 	: QWidget(pnt)
-	, snpsht_(brd)
-	, hlght_x_(-1)
-	, hlght_y_(-1)
-	, plr_(0)
 {
+	init(pos_x, pos_y, brd);
+}
+
+void vis_brd::init(int pos_x, int pos_y, const gm_brd &b)
+{
+	snpsht_ = b;
+	hlght_x_ = hlght_y_ = -1;
+	plr_ = 0;
 	setMouseTracking(false);
 	setGeometry(pos_x, pos_y, get_hz_sz(), get_vt_sz());
 }
@@ -30,6 +34,7 @@ void vis_brd::sort_mvs()
 	assert(!pos_mvs_.empty());
 	std::sort(pos_mvs_.begin(), pos_mvs_.end(), mvs_cmp);
 }
+
 
 void vis_brd::set_plr_brd(hmn_plr &p, const gm_brd &b)
 {
@@ -79,7 +84,7 @@ void vis_brd::_drw_fld(int i, int j, bool hlght)
 	static const int spc = fld_sz / 8;
 
 	QPainter pnt(this);
-	
+
 	/**
 	 * Step 1: Draw the bounding rectangle.
 	 */
@@ -102,7 +107,7 @@ void vis_brd::_drw_fld(int i, int j, bool hlght)
 	int fr_y = j * fld_sz + wdt / 2;
 
 	pnt.drawRect(fr_x, fr_y, fld_sz, fld_sz);
-	
+
 	/**
 	 * Step 2: Draw the circle.
 	 */

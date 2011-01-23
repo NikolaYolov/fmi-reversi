@@ -3,10 +3,11 @@
 
 #include <QWidget>
 
-#include "gm_brd.h"
 #include "turn.h"
+#include "gm_brd.h"
 
 class hmn_plr;
+class gm_brd;
 
 class vis_brd
 	: public QWidget
@@ -14,6 +15,7 @@ class vis_brd
 public:
 	vis_brd(QWidget *, int pos_x, int pos_y, const gm_brd &);
 
+	void init(int pos_x, int pos_y, const gm_brd &b);
 	int get_hz_sz() const;
 	int get_vt_sz() const;
 	void set_plr_brd(hmn_plr &, const gm_brd &);
@@ -44,3 +46,4 @@ private:
 };
 
 #endif //_VISUAL_BOARD_H__
+
