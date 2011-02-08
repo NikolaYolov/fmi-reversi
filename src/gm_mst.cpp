@@ -5,6 +5,7 @@
 #include "hmn_plr.h"
 #include "cmp_plr.h"
 #include "vis_brd.h"
+#include "binio.h"
 
 gm_mst::gm_mst()
 	: trn_n_(0)
@@ -46,7 +47,29 @@ gm_mst::~gm_mst()
 void gm_mst::nw()
 {
 	_init();
-	_asgn_trn();		
+}
+
+void gm_mst::sv(gm_wrtr &w)
+{
+	w._wrt_mvs(hstr_);
+}
+
+void gm_mst::ld(gm_rdr &r)
+{
+	_init();
+	if (!r._rd_mvs(hstr_))
+	{
+		QMessageBox(QMessageBox::Critical, tr("Error!"), tr("File damaged!"), QMessageBox::Ok).exec();
+		return;
+	}
+
+	go_to_tr(hstr_.size());
+	emit nw_trn();	
+	{
+		int ww, bb;
+		_get_sc(ww, bb);
+		emit smb_sc(ww, bb);
+	}
 }
 
 void gm_mst::set_vb(vis_brd *v)
@@ -57,22 +80,6 @@ void gm_mst::set_vb(vis_brd *v)
 void gm_mst::set_opt(const opts *o)
 {
 	opts_ = *o;
-}
-
-void gm_mst::sv()
-{
-	/**
-	  * Not implemented!
-	  */
-	assert(false);
-}
-
-void gm_mst::ld()
-{
-	/**
-	  * Not implemented!
-	  */
-	assert(false);
 }
 
 void gm_mst::acpt_trn(turn t)
@@ -138,7 +145,6 @@ void gm_mst::_clr()
 	hstr_.clear();
 }
 
-
 void gm_mst::_init()
 {
 	_clr();
@@ -162,7 +168,7 @@ void gm_mst::_asgn_trn()
 	p->mk_mv(c_brd_, 0.);
 }
 
-const std::vector<turn>& gm_mst::get_hstr() const
+const gm_mst::hstr_t& gm_mst::get_hstr() const
 {
 	return hstr_;
 }

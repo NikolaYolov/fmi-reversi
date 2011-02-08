@@ -1,9 +1,11 @@
+#include <cassert>
 #include <QFont>
 #include <QPushButton>
 #include <QWidget>
 #include <QLine>
 #include <QHeaderView>
 #include <QApplication>
+#include <QMessageBox>
 
 #include "gm_mgr.h"
 
@@ -14,6 +16,9 @@
 #include "trn_lst.h"
 #include "trn_mdl.h"
 #include "nw_dlg.h"
+#include "sv_dlg.h"
+#include "ld_dlg.h"
+#include "binio.h"
 
 gm_mgr::gm_mgr(QApplication *app)
 	: m_wnd_(new QWidget)
@@ -46,6 +51,7 @@ gm_mgr::gm_mgr(QApplication *app)
 	new mn_bar(m_wnd_, app, this);
 
 	gm_->nw();
+	gm_->srt();
 	m_wnd_->show();
 }
 
@@ -66,6 +72,58 @@ void gm_mgr::do_nw()
 		gm_->set_opt(opt_);
 		gm_->nw();
 		tm_->rsz();
+		gm_->srt();
+	}
+}
+
+void gm_mgr::do_sv()
+{
+	sv_dlg dlg(m_wnd_);
+	if (dlg.exec() == QDialog::Accepted)
+	{
+		QStringList ll = dlg.selectedFiles();
+		assert(ll.size() == 1);
+		gm_wrtr w(ll.first());
+
+		if (!w.open(QIODevice::WriteOnly | QIODevice::Truncate))
+		{
+			QMessageBox(QMessageBox::Critical, tr("Error!"), tr("Unable to write in the file!"), QMessageBox::Ok, m_wnd_).exec();
+			return;
+		}
+		w._wrt_opts(*opt_);
+
+		gm_->sv(w);
+	}
+}
+
+void gm_mgr::do_ld()
+{
+	ld_dlg dlg(m_wnd_);
+	if (dlg.exec() == QDialog::Accepted)
+	{
+		QStringList ll = dlg.selectedFiles();
+		assert(ll.size() == 1);
+
+		gm_rdr r(ll.first());
+
+		if (!r.open(QIODevice::ReadOnly))
+		{
+			QMessageBox(QMessageBox::Critical, tr("Error!"), tr("Unable to open the file!"), QMessageBox::Ok).exec();
+			return;
+		}
+
+		if (!r._rd_opts(*opt_))
+		{
+			QMessageBox(QMessageBox::Critical, tr("Error!"), tr("File damaged!"), QMessageBox::Ok).exec();
+			return;
+		}
+
+		rsz();
+		gm_->set_opt(opt_);
+		gm_->ld(r);
+		rsz();
+		tm_->rsz();
+		gm_->srt();
 	}
 }
 

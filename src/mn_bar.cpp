@@ -14,8 +14,13 @@ mn_bar::mn_bar(QWidget *wnd, QApplication *app, gm_mgr *mgr)
 		QMenu *fl_m = new QMenu(QObject::tr("File"), main);
 		QAction *a_new = fl_m->addAction(QObject::tr("New"));
 		QObject::connect(a_new, SIGNAL(triggered()), mgr, SLOT(do_nw()));
-		QAction *a_sv = fl_m->addAction(QObject::tr("Save"));
+
+		QAction *a_sv = fl_m->addAction(QObject::tr("Save As"));
+		QObject::connect(a_sv, SIGNAL(triggered()), mgr, SLOT(do_sv()));
+
 		QAction *a_ld = fl_m->addAction(QObject::tr("Load"));
+		QObject::connect(a_ld, SIGNAL(triggered()), mgr, SLOT(do_ld()));
+
 		QAction *a_qt = fl_m->addAction(QObject::tr("Quit"));
 		QObject::connect(a_qt, SIGNAL(triggered()), app, SLOT(quit()));
 		main->addMenu(fl_m);

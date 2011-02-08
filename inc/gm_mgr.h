@@ -21,6 +21,8 @@ public:
 
 public slots:
 	void do_nw();
+	void do_sv();
+	void do_ld();
 
 private:
 	QWidget *m_wnd_;
