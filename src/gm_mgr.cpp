@@ -32,6 +32,8 @@ gm_mgr::gm_mgr(QApplication *app)
 
 	opt_->wdth_ = 8;
 	opt_->hght_ = 8;
+	opt_->pl1_ = opts::pt_hmn;
+	opt_->pl2_ = opts::pt_cmp;
 
 	vb_ = new vis_brd(m_wnd_, 45, 45, gm_brd(opt_->wdth_, opt_->hght_));
 

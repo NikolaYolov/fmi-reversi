@@ -29,12 +29,15 @@ static bool mvs_cmp(const move &m1, const move &m2)
 	return m1.xy_ < m2.xy_;
 }
 
-void vis_brd::sort_mvs()
+static bool mvs_n_cmp(const move &m1, const move &m2)
 {
-	assert(!pos_mvs_.empty());
-	std::sort(pos_mvs_.begin(), pos_mvs_.end(), mvs_cmp);
+	return m1.xy_ > m2.xy_;
 }
 
+void vis_brd::sort_mvs()
+{
+	std::sort(pos_mvs_.begin(), pos_mvs_.end(), mvs_cmp);
+}
 
 void vis_brd::set_plr_brd(hmn_plr &p, const gm_brd &b)
 {
@@ -43,6 +46,7 @@ void vis_brd::set_plr_brd(hmn_plr &p, const gm_brd &b)
 	plr_ = &p;
 	snpsht_ = b;
 	snpsht_.gen_all_mvs(plr_->get_clr(), pos_mvs_);
+	sort_mvs();
 
 	repaint();
 	if (pos_mvs_.empty())
@@ -51,6 +55,15 @@ void vis_brd::set_plr_brd(hmn_plr &p, const gm_brd &b)
 		t.mesg_.msg_ = mesg::m_skip;
 		p.do_mv(t);
 	}
+}
+
+void vis_brd::set_cmp_brd(const gm_brd &b)
+{
+	setMouseTracking(false);
+	plr_ = 0;
+	snpsht_ = b;
+	assert(hlght_x_ == hlght_y_ && hlght_y_ == -1);
+	repaint();
 }
 
 int vis_brd::get_hz_sz() const
@@ -163,6 +176,7 @@ void vis_brd::mousePressEvent(QMouseEvent *ev)
 		const QPoint& pnt = ev->pos();
 		turn t;
 		t.move_.xy_ = _clc_idx_x(pnt.x()) + _clc_idx_y(pnt.y()) * snpsht_.get_wdth(); 
+		assert(std::adjacent_find(pos_mvs_.begin(), pos_mvs_.end(), mvs_n_cmp) == pos_mvs_.end());
 		if (std::binary_search(pos_mvs_.begin(), pos_mvs_.end(), t.move_, mvs_cmp))
 		{
 			hlght_x_ = hlght_y_ = -1;
@@ -182,6 +196,7 @@ void vis_brd::mouseMoveEvent(QMouseEvent *ev)
 		hlght_y_ = _clc_idx_y(pnt.y());
 		
 		struct move mv(hlght_x_ + hlght_y_ * snpsht_.get_wdth());
+		assert(std::adjacent_find(pos_mvs_.begin(), pos_mvs_.end(), mvs_n_cmp) == pos_mvs_.end());
 		if (std::binary_search(pos_mvs_.begin(), pos_mvs_.end(), mv, mvs_cmp) == false)
 			hlght_x_ = hlght_y_ = -1;
 		repaint();

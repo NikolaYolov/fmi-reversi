@@ -19,6 +19,7 @@ public:
 	int get_hz_sz() const;
 	int get_vt_sz() const;
 	void set_plr_brd(hmn_plr &, const gm_brd &);
+	void set_cmp_brd(const gm_brd &b);
 	void dctv();
 
 protected:

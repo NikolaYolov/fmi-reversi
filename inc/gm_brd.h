@@ -37,8 +37,8 @@ public:
   */
 	void gen_all_mvs(/*in*/ plr_clr , /*out*/ std::vector<move>& ) const;
 
-	plr_clr get_cell(move );
-	plr_clr get_cell(int );
+	plr_clr get_cell(move ) const;
+	plr_clr get_cell(int ) const;
 
 	void set_cell(move , plr_clr );
 	void set_cell(int , plr_clr );

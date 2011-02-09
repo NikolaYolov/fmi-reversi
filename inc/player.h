@@ -13,9 +13,10 @@ class gm_mst;
   */
 enum plr_clr : char
 {
-	pc_free,
+	pc_free = 0,
 	pc_wht,
 	pc_blc,
+	pc_cnt, // count
 };
 
 /**
@@ -30,8 +31,9 @@ public:
   *	This virtual method represents the main interface for the human and cumputer players.
   *	It is called when the caller asks the player to move and the player starts 'thinking'.
   */
-	virtual void mk_mv(/*in*/ gm_brd &, /*in*/ time_t ) = 0;
+	virtual void mk_mv(const /*in*/ gm_brd &, /*in*/ time_t ) = 0;
 	plr_clr get_clr();
+	virtual ~player(){};
 
 protected:
 	gm_mst &ownr_;

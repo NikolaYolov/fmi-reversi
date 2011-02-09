@@ -15,7 +15,7 @@ public:
 /**
   * This method makes one move using the graphical interface.
   */
-	virtual void mk_mv(/*in*/ gm_brd &, /*in*/ time_t );
+	virtual void mk_mv(const /*in*/ gm_brd &, /*in*/ time_t );
 
 /**
   * This informs the game master that the human has make their move.

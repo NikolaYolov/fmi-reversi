@@ -144,12 +144,12 @@ void gm_brd::gen_all_mvs(plr_clr plr, std::vector<move>& res) const
 }
 
 
-plr_clr gm_brd::get_cell(move m)
+plr_clr gm_brd::get_cell(move m) const
 {
 	return brd_[m.xy_];
 }
 
-plr_clr gm_brd::get_cell(int m)
+plr_clr gm_brd::get_cell(int m) const
 {
 	return brd_[m];
 }

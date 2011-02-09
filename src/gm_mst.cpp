@@ -153,8 +153,8 @@ void gm_mst::_init()
 	assert(opts_.hght_ > 1 && opts_.wdth_ > 1);
 	c_brd_.rst();
 
-	plrs_[0] = (opts_.pl1_ == opts::pt_hmn) ? static_cast<player*>(new hmn_plr(*this, pc_wht)) : static_cast<player*>(new cmp_plr(*this, pc_wht));
-	plrs_[1] = (opts_.pl2_ == opts::pt_hmn) ? static_cast<player*>(new hmn_plr(*this, pc_blc)) : static_cast<player*>(new cmp_plr(*this, pc_blc));
+	plrs_[0] = (opts_.pl1_ == opts::pt_hmn) ? dynamic_cast<player*>(new hmn_plr(*this, pc_wht)) : dynamic_cast<player*>(new cmp_plr(*this, pc_wht));
+	plrs_[1] = (opts_.pl2_ == opts::pt_hmn) ? dynamic_cast<player*>(new hmn_plr(*this, pc_blc)) : dynamic_cast<player*>(new cmp_plr(*this, pc_blc));
 
 	trn_n_ = 0;
 	c_plr_ = pc_wht;
