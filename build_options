@@ -1,4 +1,6 @@
-CONFIG += qt debug
+CONFIG += qt release
+DEFINES += NDEBUG
+FLAGS += O3
 DESTDIR = bin/
 MOC_DIR = tmp/
 OBJECTS_DIR = tmp/

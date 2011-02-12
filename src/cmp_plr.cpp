@@ -79,8 +79,6 @@ int off_hrst(plr_clr c, const gm_brd &b)
 
 	int d = 0;
 	const int c00 = 0;
-	const int c0x = b.get_wdth() - 1;
-	const int cy0 = b.get_size() - b.get_wdth();
 	const int cyx = b.get_size() - 1;
 
 	for (index_t i = c00; i <= cyx; ++i)
@@ -94,22 +92,11 @@ void wrk_thrd::set_brd(const gm_brd &b)
 	brd_stck_[0] = b;
 }
 
-char *t1 = "\t";
-char *t2 = "\t\t";
-char *t3 = "\t\t\t";
-char *t4 = "\t\t\t\t";
-char *t5 = "\t\t\t\t\t";
-char *t6 = "\t\t\t\t\t\t";
-char *t7 = "\t\t\t\t\t\t\t";
-char *t8 = "\t\t\t\t\t\t\t\t";
-char *ts[8] = { t1, t2, t3, t4, t5, t6, t7, t8 };
-
 int wrk_thrd::a_b(int a, int b, plr_clr c, int lvl, bool skp)
 {
 	if (lvl == max_lvl)
 	{
-		int res = on_hrst(c, brd_stck_[lvl]);
-		return (clr_ == c)? res : - res;
+		return on_hrst(c, brd_stck_[lvl]);
 	}
 
 	std::vector<move> mvs;
@@ -120,8 +107,7 @@ int wrk_thrd::a_b(int a, int b, plr_clr c, int lvl, bool skp)
 	{
 		if (skp)
 		{
-			int res = off_hrst(c, brd_stck_[lvl]);
-			return (clr_ == c)? res : - res;
+			return off_hrst(c, brd_stck_[lvl]);
 		}
 		else
 		{
@@ -135,7 +121,6 @@ int wrk_thrd::a_b(int a, int b, plr_clr c, int lvl, bool skp)
 		brd_stck_[lvl + 1] = brd_stck_[lvl];
 		brd_stck_[lvl + 1].do_mv(mvs[i], c);
 		a = std::max(a, -a_b(-b, -a, opp_c, lvl + 1, false));
-//		qDebug() << ts[lvl] << a;
 		if (b <= a)
 			break;
 	}
@@ -163,13 +148,11 @@ void wrk_thrd::run()
 				bestsc = a;
 				besti = i;
 			}
-//			qDebug() << bestsc;
 		}
 		des_ = { mvs[besti], mesg() };
 	}
 	else
 		des_.mesg_.msg_ = mesg::m_skip;
-//	qDebug() << "-----------------------------------------------------------------";
 }
 
 wrk_thrd::~wrk_thrd()
